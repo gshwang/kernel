@@ -1,0 +1,255 @@
+#
+# Mouse driver configuration
+#
+menuconfig INPUT_TOUCHSCREEN
+	bool "Touchscreens"
+	help
+	  Say Y here, and a list of supported touchscreens will be displayed.
+	  This option doesn't affect the kernel.
+
+	  If unsure, say Y.
+
+if INPUT_TOUCHSCREEN
+
+config TOUCHSCREEN_ADS7846
+	tristate "ADS 7846/7843 based touchscreens"
+	depends on SPI_MASTER
+	depends on HWMON = n || HWMON
+	help
+	  Say Y here if you have a touchscreen interface using the
+	  ADS7846 or ADS7843 controller, and your board-specific setup
+	  code includes that in its table of SPI devices.
+
+	  If HWMON is selected, and the driver is told the reference voltage
+	  on your board, you will also get hwmon interfaces for the voltage
+	  (and on ads7846, temperature) sensors of this chip.
+
+	  If unsure, say N (but it's safe to say "Y").
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called ads7846.
+
+config TOUCHSCREEN_BITSY
+	tristate "Compaq iPAQ H3600 (Bitsy) touchscreen"
+	depends on SA1100_BITSY
+	select SERIO
+	help
+	  Say Y here if you have the h3600 (Bitsy) touchscreen.
+
+	  If unsure, say N.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called h3600_ts_input.
+
+config TOUCHSCREEN_CORGI
+	tristate "SharpSL (Corgi and Spitz series) touchscreen driver"
+	depends on PXA_SHARPSL
+	default y	
+	help
+	  Say Y here to enable the driver for the touchscreen on the 
+	  Sharp SL-C7xx and SL-Cxx00 series of PDAs.
+
+	  If unsure, say N.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called corgi_ts.
+
+config TOUCHSCREEN_S3C2410
+    tristate "Samsung S3C2410/S3C2440 touchscreen input driver"
+    depends on ARCH_S3C2410 && INPUT && INPUT_TOUCHSCREEN 
+    select SERIO
+    help
+      Say Y here if you have the s3c2410/s3c2440 touchscreen.
+
+      If unsure, say N.
+
+      To compile this driver as a module, choose M here: the
+      module will be called s3c2410_ts.
+
+config TOUCHSCREEN_S3C2410_DEBUG
+    boolean "Samsung S3C2410/S3C2440 touchscreen debug messages"
+    depends on TOUCHSCREEN_S3C2410
+    help
+      Select this if you want debug messages
+
+config TOUCHSCREEN_GUNZE
+	tristate "Gunze AHL-51S touchscreen"
+	select SERIO
+	help
+	  Say Y here if you have the Gunze AHL-51 touchscreen connected to
+	  your system.
+
+	  If unsure, say N.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called gunze.
+
+config TOUCHSCREEN_ELO
+	tristate "Elo serial touchscreens"
+	select SERIO
+	help
+	  Say Y here if you have an Elo serial touchscreen connected to
+	  your system.
+
+	  If unsure, say N.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called elo.
+
+config TOUCHSCREEN_MTOUCH
+	tristate "MicroTouch serial touchscreens"
+	select SERIO
+	help
+	  Say Y here if you have a MicroTouch (3M) serial touchscreen connected to
+	  your system.
+
+	  If unsure, say N.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called mtouch.
+
+config TOUCHSCREEN_MK712
+	tristate "ICS MicroClock MK712 touchscreen"
+	help
+	  Say Y here if you have the ICS MicroClock MK712 touchscreen
+	  controller chip in your system.
+
+	  If unsure, say N.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called mk712.
+
+config TOUCHSCREEN_HP600
+	tristate "HP Jornada 680/690 touchscreen"
+	depends on SH_HP6XX && SH_ADC
+	help
+	  Say Y here if you have a HP Jornada 680 or 690 and want to
+          support the built-in touchscreen.
+
+	  If unsure, say N.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called hp680_ts_input.
+
+config TOUCHSCREEN_PENMOUNT
+	tristate "Penmount serial touchscreen"
+	select SERIO
+	help
+	  Say Y here if you have a Penmount serial touchscreen connected to
+	  your system.
+
+	  If unsure, say N.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called penmount.
+
+config TOUCHSCREEN_TOUCHRIGHT
+	tristate "Touchright serial touchscreen"
+	select SERIO
+	help
+	  Say Y here if you have a Touchright serial touchscreen connected to
+	  your system.
+
+	  If unsure, say N.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called touchright.
+
+config TOUCHSCREEN_TOUCHWIN
+	tristate "Touchwin serial touchscreen"
+	select SERIO
+	help
+	  Say Y here if you have a Touchwin serial touchscreen connected to
+	  your system.
+
+	  If unsure, say N.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called touchwin.
+
+config TOUCHSCREEN_UCB1400
+	tristate "Philips UCB1400 touchscreen"
+	select AC97_BUS
+	help
+	  This enables support for the Philips UCB1400 touchscreen interface.
+	  The UCB1400 is an AC97 audio codec.  The touchscreen interface
+	  will be initialized only after the ALSA subsystem has been
+	  brought up and the UCB1400 detected.  You therefore have to
+	  configure ALSA support as well (either built-in or modular,
+	  independently of whether this driver is itself built-in or
+	  modular) for this driver to work.
+
+	  To compile this driver as a module, choose M here: the
+	  module will be called ucb1400_ts.
+
+config TOUCHSCREEN_WM97XX
+        tristate "Support for WM97xx AC97 touchscreen controllers"            
+        depends on AC97_BUS
+        help
+          Say Y here if you have a Wolfson Microelectronics WM97xx            
+          touchscreen connected to your system. Note that this option         
+          only enables core driver, you will also need to select              
+          support for appropriate chip below.                                 
+                                                                              
+          If unsure, say N.
+                                                                              
+          To compile this driver as a module, choose M here: the
+          module will be called wm97xx-ts.
+                                                                              
+config TOUCHSCREEN_WM9705
+        bool "WM9705 Touchscreen interface support"
+        depends on TOUCHSCREEN_WM97XX
+        help
+          Say Y here if you have a Wolfson Microelectronics WM9705
+          touchscreen controller connected to your system.
+                                                                              
+          If unsure, say N.
+                                                                              
+config TOUCHSCREEN_WM9712
+        bool "WM9712 Touchscreen interface support"
+        depends on TOUCHSCREEN_WM97XX
+        help
+          Say Y here if you have a Wolfson Microelectronics WM9712
+          touchscreen controller connected to your system.
+                                                                              
+          If unsure, say N.
+                                                                              
+config TOUCHSCREEN_WM9713
+        bool "WM9713 Touchscreen interface support"
+        depends on TOUCHSCREEN_WM97XX
+        help
+          Say Y here if you have a Wolfson Microelectronics WM9713 touchscreen
+          controller connected to your system.
+                                                                              
+          If unsure, say N.
+                                                                              
+config TOUCHSCREEN_WM97XX_MAINSTONE
+        tristate "WM97xx Mainstone accelerated touch"
+        depends on TOUCHSCREEN_WM97XX && ARCH_PXA
+        help
+          Say Y here for support for streaming mode with WM97xx touchscreens
+          on Mainstone systems.
+
+          If unsure, say N.
+                                                                              
+          To compile this driver as a module, choose M here: the
+          module will be called mainstone-wm97xx.
+          
+config TOUCHSCREEN_EP93XX
+	tristate "EP93xx Touchscreen"
+	depends on ARM && INPUT && ARCH_EP93XX
+
+config TOUCHSCREEN_FALINUX_WM9712
+	tristate "FALINUX WM9712 Touchscreen"
+	depends on ARM && INPUT
+	depends on ARCH_FALINUX_PXA270 || ARCH_FALINUX_PXA255 || ARCH_FALINUX_PXA320
+	help
+	 This enables support for the Wolfson WM9712 chip touchscreen interface.
+
+config TOUCHSCREEN_FALINUX_WM9712
+	tristate "FALINUX WM9712 Touchscreen"
+	depends on MIPS && INPUT
+	help
+	 This enables support for the Wolfson WM9712 chip touchscreen interface.
+	 
+endif

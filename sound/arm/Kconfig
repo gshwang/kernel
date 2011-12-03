@@ -1,0 +1,75 @@
+# ALSA ARM drivers
+
+menu "ALSA ARM devices"
+	depends on SND!=n && ARM
+
+config SND_SA11XX_UDA1341
+	tristate "SA11xx UDA1341TS driver (iPaq H3600)"
+	depends on ARCH_SA1100 && SND && L3
+	select SND_PCM
+	help
+	  Say Y here if you have a Compaq iPaq H3x00 handheld computer
+	  and want to use its Philips UDA 1341 audio chip.
+
+	  To compile this driver as a module, choose M here: the module
+	  will be called snd-sa11xx-uda1341.
+
+config SND_EP93XX_IIS
+	tristate "EP93xx ALSA iis audio driver"
+	depends on ARCH_EP93XX && SND
+	select SND_PCM
+	help
+	  Say Y or M if you have a EP93xx board and want to use iis audio and
+	  to use CS4228A and CS4271.
+
+config CODEC_CS4228A
+	tristate "Cirrus cs4228a 6-channels sound"
+	depends on MACH_EDB9312 || MACH_EDB9315 || MACH_EDB9307
+	help
+	  This module drives the Cirrus Logic device CS4281A when wired
+	  as native sound drivers with I2S codecs. It olny work on
+	  EDB9307/12/15 with disable CS4202 driver.
+
+config CODEC_CS4271
+	tristate "Cirrus cs4271 2-channels sound"
+	depends on (MACH_EDB9301 || MACH_EDB9302 || MACH_EDB9315A || MACH_EDB9307A || MACH_EDB9302A)
+	help
+	  This module drives the Cirrus Logic device CS4271 when wired
+	  as native sound drivers with I2S codecs. It olny work on
+	  EDB9301/02/15A with disable CS4202 driver.
+
+config SND_EP93XX_AC97
+	tristate "AC97 driver for the Cirrus EP93xx chip"
+	depends on ARCH_EP93XX && SND
+	select SND_EP93XX_PCM
+	select SND_AC97_CODEC
+	help
+	  Say Y or M if you want to support any AC97 codec attached to
+	  the EP93xx AC97 interface.
+
+config SND_EP93XX_PCM
+	tristate
+	select SND_PCM
+	help
+	  Generic PCM module for EP93xx
+				      
+config SND_ARMAACI
+	tristate "ARM PrimeCell PL041 AC Link support"
+	depends on SND && ARM_AMBA
+	select SND_PCM
+	select SND_AC97_CODEC
+
+config SND_PXA2XX_PCM
+	tristate
+	select SND_PCM
+
+config SND_PXA2XX_AC97
+	tristate "AC97 driver for the Intel PXA2xx chip"
+	depends on ARCH_PXA && SND
+	select SND_PXA2XX_PCM
+	select SND_AC97_CODEC
+	help
+	  Say Y or M if you want to support any AC97 codec attached to
+	  the PXA2xx AC97 interface.
+
+endmenu
